@@ -1,0 +1,142 @@
+{% extends "bootstrap/base.html" %} {% block content %}
+
+<style type="text/css">
+  body {
+    font: 15px/1.5 Arial, Helvetica, sans-serif;
+  }
+  .spinner-1:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 60px;
+    width: 60px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    border: 6px solid transparent;
+    border-top-color: #0091ea;
+    animation: spinner 0.7s linear infinite;
+  }
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  li {
+    background-color: #bdbdbd;
+  }
+  li:nth-child(odd) {
+    background-color: #0091ea;
+  }
+  jumbotron{
+    background-color:red;
+    transition: 200ms ease;
+  }
+  .center {
+  margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 10px;
+}
+</style>
+
+
+<div class="container">
+
+  <div class="text-center", style="background-color: rgb(212, 209, 209)">
+    <h3 style="color:black;">Multi-Modal Data Recorder</h3>
+  </div>
+</div>
+
+<div class="container">
+
+    <div class="center", id="box", style="width:1100px;height:500px;border:1px solid #000; background-color: black"></div>    
+  </div>
+  
+
+
+
+
+<div class="container">
+  <form id="myForm">
+    <label>Enter User Name</label>
+    <textarea
+      class="form-control"
+      id="myTextarea"
+      rows="1"
+      cols="1"
+      name="rawtext"
+    ></textarea>
+  <br>
+    
+
+    <input
+      type="button"
+      onclick="startRecording()"
+      value="Start Recording"
+      class="btn btn-primary "
+    />
+<br>
+
+  <div class= 'container' id= 'status'>
+  </div>
+
+    {% endblock %}
+
+    <!-- Scripts starts here -->
+    {% block scripts %}
+
+
+
+    <script>
+  
+  
+      function changeColor(i) {
+
+        var body = document.getElementById('box');
+        var colors = ['black', 'red', 'green', 'blue', 'yellow','cyan', 'pink'];
+            
+        if (i < 0){
+
+          document.getElementById("status").innerHTML = "Stop Singing, File has been saved succesfully!";
+          return;
+        }
+
+        setTimeout(function () {
+
+            console.log(colors[i]);
+            body.style.backgroundColor = colors[i];
+
+            changeColor(--i);
+
+        }, 2000);
+        }
+
+
+      function startRecording(){
+        var inputText = document.getElementById('myTextarea').value;
+        console.log(inputText);
+        document.getElementById("status").innerHTML = "Recording Started!";
+        $.ajax(
+            {
+              type : 'POST',
+              url : "/analyse",
+              contentType: "application/text;charset=UTF-8",
+              dataType:'text',
+              data    : inputText,
+            });
+      
+        changeColor(6);  
+      }
+      
+
+    </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- Prevent it from being overwritten -->
+
+    {% endblock %}
+  </div>
+</div>
