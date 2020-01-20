@@ -91,12 +91,28 @@
 
 
     <script>
+      
+      function createHSL(i){
+        var colors_hsl = []
+
+        for (let j = 0; j < i; j++) {
+          let hue = Math.floor(Math.random() * 360) + 6 
+          let saturation = Math.floor(Math.random() * 30) + 70 
+          let lightness = Math.floor(Math.random() * 30) + 40 
+          colors_hsl.push(`hsl(${hue},${saturation}%,${lightness}%)`)
+          for (let k = 0; k < 6 ; k++){
+            colors_hsl.push(`hsl(${hue-Math.floor(Math.random() * 6+1)},${saturation -Math.floor(Math.random() * 20+1)}%,${lightness -Math.floor(Math.random() * 20+1)}%)`)
+          }
+        }
+        console.log(colors_hsl.length)
+        return colors_hsl
+      }
   
-  
-      function changeColor(i) {
+      function changeColor(i, colorHSL) {
 
         var body = document.getElementById('box');
-        var colors = ['black', 'red', 'green', 'blue', 'yellow','cyan', 'pink'];
+        var colorHSL = colorHSL
+        console.log(colorHSL)
             
         if (i < 0){
 
@@ -106,12 +122,12 @@
 
         setTimeout(function () {
 
-            console.log(colors[i]);
-            body.style.backgroundColor = colors[i];
+            console.log(colorHSL[i]);
+            body.style.backgroundColor = colorHSL[i];
 
-            changeColor(--i);
+            changeColor(--i, colorHSL );
 
-        }, 2000);
+        }, 800);
         }
 
 
@@ -127,8 +143,16 @@
               dataType:'text',
               data    : inputText,
             });
-      
-        changeColor(6);  
+        
+        var colorHSL = createHSL(2)
+        changeColor(colorHSL.length, colorHSL); 
+        $.ajax({
+          type: "POST",
+          contentType: "application/json;charset=UTF-8",
+          url: "/save",
+          data: JSON.stringify({colorHSL}),
+          dataType: "json"
+          });
       }
       
 
