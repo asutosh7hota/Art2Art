@@ -25,11 +25,11 @@ def analyse():
         filename = rawtext.decode()
     user_list.append(filename)
     fs = 44100  # Sample rate
-    seconds = 10  # Duration of recording
+    seconds = 300  # Duration of recording
     print('recording started')
     myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=2)
     sd.wait()  # Wait until recording is finished
-    write(filename + '.wav', fs, myrecording)  # Save as WAV file 
+    write('./data/'+filename + '.wav', fs, myrecording)  # Save as WAV file 
 
     print('Data Sent')
     return render_template('index.html', status = 'File has been saved successfully!')
@@ -42,13 +42,14 @@ def save():
         print('Type of doc:', type(rawtext))
     filename = user_list[len(user_list)-1]
     
-    with open(filename+'.json', 'w') as json_file:
+    with open('./data/'+filename+'.json', 'w') as json_file:
         json.dump(rawtext, json_file)
-    
+        
+    # Pen Module code; Comment the follow lines if you want only audio data
+    print('Start External python pen module')
+    application_str = 'python pen_module.py '+filename
+    os.system(application_str)
     return render_template('index.html', file = 'Data Collection Complete!')
-
-
-
 
 
 if __name__ == '__main__':

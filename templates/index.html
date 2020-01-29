@@ -40,6 +40,13 @@
   border: 3px solid #73AD21;
   padding: 10px;
 }
+#box {
+  height: 800px; /*your wish*/
+  width: 1920px; /*your wish*/
+  transition: all ease 3s; /*for animation effect*/
+  border:1px solid #000;
+  background-color: black;
+}
 </style>
 
 
@@ -50,10 +57,9 @@
   </div>
 </div>
 
-<div class="container">
 
-    <div class="center", id="box", style="width:1100px;height:500px;border:1px solid #000; background-color: black"></div>    
-  </div>
+    <div  id="box"></div>    
+  
   
 
 
@@ -100,8 +106,8 @@
           let saturation = Math.floor(Math.random() * 30) + 70 
           let lightness = Math.floor(Math.random() * 30) + 40 
           colors_hsl.push(`hsl(${hue},${saturation}%,${lightness}%)`)
-          for (let k = 0; k < 6 ; k++){
-            colors_hsl.push(`hsl(${hue-Math.floor(Math.random() * 6+1)},${saturation -Math.floor(Math.random() * 20+1)}%,${lightness -Math.floor(Math.random() * 20+1)}%)`)
+          for (let k = 0; k < 2 ; k++){
+            colors_hsl.push(`hsl(${hue-Math.floor(Math.random() * 6+2)},${saturation -Math.floor(Math.random() * 20+1)}%,${lightness -Math.floor(Math.random() * 20+1)}%)`)
           }
         }
         console.log(colors_hsl.length)
@@ -124,10 +130,11 @@
 
             console.log(colorHSL[i]);
             body.style.backgroundColor = colorHSL[i];
+            //$("#box").css({backgroundColor = colorHSL[i]});
 
             changeColor(--i, colorHSL );
 
-        }, 800);
+        }, 6000);
         }
 
 
@@ -144,7 +151,7 @@
               data    : inputText,
             });
         
-        var colorHSL = createHSL(2)
+        var colorHSL = createHSL(15)
         changeColor(colorHSL.length, colorHSL); 
         $.ajax({
           type: "POST",
@@ -157,7 +164,7 @@
       
 
     </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <!-- Prevent it from being overwritten -->
 
